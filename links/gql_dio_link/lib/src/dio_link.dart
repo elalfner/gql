@@ -55,6 +55,8 @@ class DioLink extends Link {
   /// other potentially non-serializable fields like callbacks or the cancel token.
   final bool serializableErrors;
 
+  final dio.ProgressCallback? onSendProgress;
+
   DioLink(
     this.endpoint, {
     required this.client,
@@ -63,6 +65,7 @@ class DioLink extends Link {
     this.parser = const ResponseParser(),
     this.useGETForQueries = false,
     this.serializableErrors = false,
+    this.onSendProgress,
   });
 
   @override
@@ -203,6 +206,7 @@ class DioLink extends Link {
             responseType: dio.ResponseType.json,
             headers: headers,
           ),
+          onSendProgress: onSendProgress,
         );
       }
       if (res.data is Map<String, dynamic> == false) {
